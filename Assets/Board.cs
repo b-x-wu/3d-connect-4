@@ -5,7 +5,8 @@ using UnityEngine;
 public class Board : MonoBehaviour
 {
     public GameController gameController;
-    public Token token;
+    public Token tokenPrefab;
+    private Token[,,] tokens;
 
     private void InstantiateBoard()
     {
@@ -18,7 +19,8 @@ public class Board : MonoBehaviour
                     int player = gameController.GetPlayerAtIndex(x, y, z);
                     if (player == 0) continue;
                     
-                    Token tokenClone = Instantiate<Token>(token, new Vector3(x, y, z), Quaternion.identity, this.transform);
+                    Token tokenClone = Instantiate<Token>(tokenPrefab, new Vector3(x, y, z), Quaternion.identity, this.transform);
+                    tokens.SetValue(tokenClone, z, y, x);
                     if (player == 1) { tokenClone.color = Color.yellow; continue; }
                     tokenClone.color = Color.red; 
                 }
@@ -29,6 +31,7 @@ public class Board : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        tokens = new Token[gameController.BOARD_Z, gameController.BOARD_Y, gameController.BOARD_X];
         InstantiateBoard();
     }
 }

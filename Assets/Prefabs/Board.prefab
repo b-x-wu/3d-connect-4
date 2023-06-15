@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameController: {fileID: 0}
-  token: {fileID: -6792253458575494443, guid: 6efdd0d90d56c46458c18c197b533d39, type: 3}
+  tokenPrefab: {fileID: -6792253458575494443, guid: 6efdd0d90d56c46458c18c197b533d39, type: 3}

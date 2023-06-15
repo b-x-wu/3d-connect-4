@@ -8,35 +8,21 @@ public class GameController : MonoBehaviour
     public int BOARD_X = 7;
     public int BOARD_Y = 7;
     public int BOARD_Z = 6;
-    public int[,,] state { get; private set; } // TODO: should be changed to an array of player pointers
-    public Board board;
+    private int[,,] state; // TODO: should be changed to an array of player pointers
+    public Board boardPrefab;
 
     public int GetPlayerAtIndex(int x, int y, int z)
     {
-        if (x < 0 || x >= BOARD_X)
-        {
-            throw new IndexOutOfRangeException($"x: {x}");
-        }
-        
-        if (y < 0 || y >= BOARD_Y)
-        {
-            throw new IndexOutOfRangeException($"y: {y}");
-        }
-        
-        if (z < 0 || z >= BOARD_Z)
-        {
-            throw new IndexOutOfRangeException($"z: {z}");
-        }
-
-        return state[z, y, x];
+        return (int) state.GetValue(z, y, x);
     }
 
     // Start is called before the first frame update
     void Start()
     {
         state = new int[BOARD_Z, BOARD_Y, BOARD_X];
-        state.SetValue(1, 0, 0, 0);
-        board = Instantiate<Board>(board, new Vector3(0f, 0f, 0f), Quaternion.identity);
+        state.SetValue(2, 0, 0, 0);
+        state.SetValue(1, 0, 0, 1);
+        Board board = Instantiate<Board>(boardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
         board.gameController = this;
     }
 }

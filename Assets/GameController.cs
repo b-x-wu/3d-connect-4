@@ -20,8 +20,18 @@ public class GameController : MonoBehaviour
     void Start()
     {
         state = new int[BOARD_Z, BOARD_Y, BOARD_X];
-        state.SetValue(2, 0, 0, 0);
-        state.SetValue(1, 0, 0, 1);
+        for (int z = 0; z < BOARD_Z; z++)
+        {
+            for (int x = 0; x < BOARD_X; x++)
+            {
+                for (int y = 0; y < BOARD_Y; y++)
+                {
+                    state.SetValue(1, z, y, x);
+                }
+            }
+        }
+        Camera.main.transform.position = new Vector3(BOARD_X * 3, BOARD_Y * 3, BOARD_Z * 3);
+        Camera.main.transform.rotation = Quaternion.LookRotation(-new Vector3(BOARD_X, BOARD_Y, BOARD_Z), Vector3.forward);
         Board board = Instantiate<Board>(boardPrefab, new Vector3(0f, 0f, 0f), Quaternion.identity);
         board.gameController = this;
     }

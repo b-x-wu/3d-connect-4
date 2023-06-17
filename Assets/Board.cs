@@ -12,6 +12,24 @@ public class Board : MonoBehaviour
     private GameObject tokenParent;
     private GameObject boardClickAreaParent;
 
+    private BoardClickArea CreateBoardClickArea(int xIdx, int yIdx)
+    {
+        BoardClickArea boardClickArea = Instantiate<BoardClickArea>(boardClickAreaPrefab, boardClickAreaParent.transform);
+        boardClickArea.xIdx = xIdx;
+        boardClickArea.yIdx = yIdx;
+        boardClickArea.boardHeight = gameController.BOARD_Z;
+        boardClickAreas.SetValue(boardClickArea, yIdx, xIdx);
+        return boardClickArea;
+    }
+
+    private Token CreateToken(int xIdx, int yIdx, int zIdx, Color color)
+    {
+        Token token = Instantiate<Token>(tokenPrefab, new Vector3(xIdx, yIdx, zIdx), Quaternion.identity, tokenParent.transform);
+        token.color = color;
+        tokens.SetValue(token, zIdx, yIdx, xIdx);
+        return token;
+    }
+
     private void InstantiateTokens()
     {
         for (int x = 0; x < gameController.BOARD_X; x++)
@@ -22,12 +40,8 @@ public class Board : MonoBehaviour
                 {
                     int player = gameController.GetPlayerAtIndex(x, y, z);
                     if (player == 0) continue;
-                    
-                    Token token = Instantiate<Token>(tokenPrefab, new Vector3(x, y, z), Quaternion.identity, this.transform);
-                    token.transform.SetParent(tokenParent.transform);
-                    tokens.SetValue(token, z, y, x);
-                    if (player == 1) { token.color = Color.yellow; continue; }
-                    token.color = Color.red;
+                    if (player == 1) { CreateToken(x, y, z, Color.yellow); continue; }
+                    CreateToken(x, y, z, Color.red);
                 }
             }
         }
@@ -39,11 +53,7 @@ public class Board : MonoBehaviour
         {
             for (int y = 0; y < gameController.BOARD_Y; y++)
             {
-                BoardClickArea boardClickArea = Instantiate<BoardClickArea>(boardClickAreaPrefab, boardClickAreaParent.transform);
-                boardClickArea.xIdx = x;
-                boardClickArea.yIdx = y;
-                boardClickArea.boardHeight = gameController.BOARD_Z;
-                boardClickAreas.SetValue(boardClickArea, y, x);
+                CreateBoardClickArea(x, y);
             }
         }
     }

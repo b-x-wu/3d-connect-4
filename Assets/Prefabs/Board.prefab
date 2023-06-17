@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameController: {fileID: 0}
   tokenPrefab: {fileID: -6792253458575494443, guid: 6efdd0d90d56c46458c18c197b533d39, type: 3}
+  boardClickAreaPrefab: {fileID: 9172867933379397053, guid: 2720b4a606a6cf74e89ba0ddf13ee24e, type: 3}

@@ -30,7 +30,7 @@ public class Board : MonoBehaviour
         return token;
     }
 
-    private void InstantiateTokens()
+    private void InitializeTokens()
     {
         for (int x = 0; x < gameController.BOARD_X; x++)
         {
@@ -47,7 +47,7 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void InstantiateBoardClickAreas()
+    private void InitializeBoardClickAreas()
     {
         for (int x = 0; x < gameController.BOARD_X; x++)
         {
@@ -75,7 +75,7 @@ public class Board : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InstantiateBoardClickAreas();
-        InstantiateTokens();
+        InitializeBoardClickAreas();
+        InitializeTokens();
     }
 }

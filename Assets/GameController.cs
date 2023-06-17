@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// the camera can be in sphereical coordinates but the value of phi needs to be restricted
+// to prevent weird flips in the camera
+// make the origin on the (BOARD_X / 2, BOARD_Y / 2, 0)
+// restrict epsilon < phi < pi/2
+
 public class GameController : MonoBehaviour
 {
     public int BOARD_X = 7;

@@ -11,8 +11,8 @@ public class BoardClickArea : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3(xIdx, yIdx, boardHeight / 2);
-        transform.localScale = new Vector3(1, 1, boardHeight);
+        transform.position = new Vector3(xIdx, boardHeight / 2, yIdx);
+        transform.localScale = new Vector3(1, boardHeight, 1);
     }
     
     void OnMouseOver()

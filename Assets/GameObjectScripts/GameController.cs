@@ -43,7 +43,22 @@ public class GameController : MonoBehaviour
     void Start()
     {
         // set camera
-        Camera.main.transform.position = new Vector3(BOARD_X * 3, BOARD_Y * 3, BOARD_Z * 3);
-        Camera.main.transform.rotation = Quaternion.LookRotation(-new Vector3(BOARD_X, BOARD_Y, BOARD_Z), Vector3.forward);
+        SphericalTransform cameraSphericalTransform = Camera.main.GetComponent<SphericalTransform>();
+        Vector3 cameraOrigin = new Vector3(BOARD_X / 2, 0, BOARD_Y / 2);
+        float radius = (new Vector3(BOARD_X / 2, BOARD_Z, BOARD_Y / 2)).magnitude;
+        cameraSphericalTransform.origin = cameraOrigin;
+        cameraSphericalTransform.radius = 2f * radius;
+        cameraSphericalTransform.theta = Mathf.Atan(cameraOrigin.z / cameraOrigin.x);
+        cameraSphericalTransform.phi = Mathf.Acos(BOARD_Z / radius);
+
+        Camera.main.GetComponent<SphericalTransformClamp>().radiusClamp = new Vector2(0, 5f * radius);
+
+        Camera.main.transform.rotation = Quaternion.LookRotation(cameraOrigin - Camera.main.transform.position, Vector3.up);
+    }
+
+    void Update()
+    {
+        Vector3 lookDirection = new Vector3(BOARD_X / 2, 0, BOARD_Y / 2) - Camera.main.transform.position;
+        Camera.main.transform.rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
     }
 }

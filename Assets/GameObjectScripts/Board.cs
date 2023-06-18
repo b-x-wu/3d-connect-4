@@ -18,15 +18,17 @@ public class Board : MonoBehaviour
         boardClickArea.xIdx = xIdx;
         boardClickArea.yIdx = yIdx;
         boardClickArea.boardHeight = gameController.BOARD_Z;
+        boardClickArea.name = $"Board Click Area ({xIdx}, {yIdx})";
         boardClickAreas.SetValue(boardClickArea, yIdx, xIdx);
         return boardClickArea;
     }
 
     private Token CreateToken(int xIdx, int yIdx, int zIdx, Color color)
     {
-        Token token = Instantiate<Token>(tokenPrefab, new Vector3(xIdx, yIdx, zIdx), Quaternion.identity, tokenParent.transform);
+        Token token = Instantiate<Token>(tokenPrefab, new Vector3(xIdx, zIdx, yIdx), Quaternion.identity, tokenParent.transform);
         token.color = color;
         tokens.SetValue(token, zIdx, yIdx, xIdx);
+        token.name = $"Token ({xIdx}, {yIdx}, {zIdx})";
         return token;
     }
 

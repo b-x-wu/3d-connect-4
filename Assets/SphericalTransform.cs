@@ -30,7 +30,7 @@ public class SphericalTransform : MonoBehaviour
         sphericalTransformClamp = GetComponent<SphericalTransformClamp>();
     }
 
-    void OnUpdate()
+    void Update()
     {
         if (sphericalTransformClamp != null) ClampValues();
         UpdateTransform();

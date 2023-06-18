@@ -443,3 +443,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameController: {fileID: 407119111}
+  startingRadiusMultiplier: 2
+  thetaRotationSpeed: 2
+  phiRotationSpeed: 2

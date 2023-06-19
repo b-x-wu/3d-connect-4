@@ -65,6 +65,11 @@ public class Board : MonoBehaviour
         CreateToken(xIdx, yIdx, zIdx, player.color);
     }
 
+    private void HandlePlayerWon(Player player)
+    {
+        Destroy(boardClickAreaParent);
+    }
+
     void Awake()
     {
         tokens = new Token[gameController.BOARD_Z, gameController.BOARD_Y, gameController.BOARD_X];
@@ -79,6 +84,7 @@ public class Board : MonoBehaviour
         boardClickAreaParent.name = "Board Click Area Parent";
 
         gameController.TokenAdded += HandleTokenAdded;
+        gameController.PlayerWon += HandlePlayerWon;
     }
 
     void Start()

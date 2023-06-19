@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public delegate void TokenIdxNotification(int xIdx, int yIdx, int zIdx, Player player);
+public delegate void WinnerNotification(Player player);
 
 public class GameController : MonoBehaviour
 {
@@ -12,8 +13,9 @@ public class GameController : MonoBehaviour
     public int BOARD_Z = 6;
     public int PLAYER_COUNT = 2;
     public event TokenIdxNotification TokenAdded;
+    public event WinnerNotification PlayerWon;
     private Player[] players;
-    private Player[,,] state; // TODO: should be changed to an array of player pointers
+    private Player[,,] state;
     private int currentPlayerIdx;
 
     public Player GetPlayerAtIndex(int x, int y, int z)
@@ -31,6 +33,13 @@ public class GameController : MonoBehaviour
 
         state.SetValue(players[currentPlayerIdx], smallestZ, yIdx, xIdx);
         TokenAdded?.Invoke(xIdx, yIdx, smallestZ, players[currentPlayerIdx]);
+        if (WinDetector.IsWinner(state, players[currentPlayerIdx]))
+        {
+            Debug.Log($"Player {players[currentPlayerIdx].id} wins.");
+            PlayerWon?.Invoke(players[currentPlayerIdx]);
+            return;
+        }
+
         currentPlayerIdx = (currentPlayerIdx + 1) % PLAYER_COUNT;
     }
 

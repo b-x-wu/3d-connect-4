@@ -3,56 +3,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void TokenIdxNotification(int xIdx, int yIdx, int zIdx);
+public delegate void TokenIdxNotification(int xIdx, int yIdx, int zIdx, Player player);
 
 public class GameController : MonoBehaviour
 {
     public int BOARD_X = 7;
     public int BOARD_Y = 7;
     public int BOARD_Z = 6;
+    public int PLAYER_COUNT = 2;
     public event TokenIdxNotification TokenAdded;
-    private int[,,] state; // TODO: should be changed to an array of player pointers
+    private Player[] players;
+    private Player[,,] state; // TODO: should be changed to an array of player pointers
+    private int currentPlayerIdx;
 
-    public int GetPlayerAtIndex(int x, int y, int z)
+    public Player GetPlayerAtIndex(int x, int y, int z)
     {
-        return (int) state.GetValue(z, y, x);
+        return (Player) state.GetValue(z, y, x);
     }
 
     public void HandleBoardClick(int xIdx, int yIdx)
     {
         // get smallest value of z that that has no token in state
         int smallestZ = 0;
-        while (smallestZ < BOARD_Z && (int) state.GetValue(smallestZ, yIdx, xIdx) != 0) smallestZ++;
+        while (smallestZ < BOARD_Z && (Player) state.GetValue(smallestZ, yIdx, xIdx) != null) smallestZ++;
 
         if (smallestZ == BOARD_Z) return; // the entire column is filled
 
-        state.SetValue(1, smallestZ, yIdx, xIdx);
-        TokenAdded?.Invoke(xIdx, yIdx, smallestZ);
+        state.SetValue(players[currentPlayerIdx], smallestZ, yIdx, xIdx);
+        TokenAdded?.Invoke(xIdx, yIdx, smallestZ, players[currentPlayerIdx]);
+        currentPlayerIdx = (currentPlayerIdx + 1) % PLAYER_COUNT;
     }
 
-    // Start is called before the first frame update
     void Awake()
     {
-        state = new int[BOARD_Z, BOARD_Y, BOARD_X];
+        state = new Player[BOARD_Z, BOARD_Y, BOARD_X];
+        players = new Player[PLAYER_COUNT];
+        for (int idx = 0; idx < PLAYER_COUNT; idx++) players[idx] = new Player(idx + 1, UnityEngine.Random.ColorHSV());
+        currentPlayerIdx = 0;
         Physics.queriesHitTriggers = true;
-
-        for (int x = 0; x < BOARD_X; x++)
-        {
-            for (int y = 0; y < BOARD_Y; y++)
-            {
-                state.SetValue(1, 0, y, x);
-            }
-        }
-        
-    }
-    
-    void Start()
-    {
-        
-    }
-
-    void Update()
-    {
-        
     }
 }

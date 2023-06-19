@@ -41,10 +41,9 @@ public class Board : MonoBehaviour
             {
                 for (int z = 0; z < gameController.BOARD_Z; z++)
                 {
-                    int player = gameController.GetPlayerAtIndex(x, y, z);
-                    if (player == 0) continue;
-                    if (player == 1) { CreateToken(x, y, z, Color.yellow); continue; }
-                    CreateToken(x, y, z, Color.red);
+                    Player player = gameController.GetPlayerAtIndex(x, y, z);
+                    if (player == null) continue;
+                    CreateToken(x, y, z, player.color);
                 }
             }
         }
@@ -61,9 +60,9 @@ public class Board : MonoBehaviour
         }
     }
 
-    private void HandleTokenAdded(int xIdx, int yIdx, int zIdx)
+    private void HandleTokenAdded(int xIdx, int yIdx, int zIdx, Player player)
     {
-        CreateToken(xIdx, yIdx, zIdx, Color.yellow);
+        CreateToken(xIdx, yIdx, zIdx, player.color);
     }
 
     void Awake()
@@ -82,7 +81,6 @@ public class Board : MonoBehaviour
         gameController.TokenAdded += HandleTokenAdded;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         InitializeBoardClickAreas();

@@ -18,6 +18,7 @@ public class Board : MonoBehaviour
         boardClickArea.xIdx = xIdx;
         boardClickArea.yIdx = yIdx;
         boardClickArea.boardHeight = gameController.BOARD_Z;
+        boardClickArea.gameController = gameController;
         boardClickArea.name = $"Board Click Area ({xIdx}, {yIdx})";
         boardClickAreas.SetValue(boardClickArea, yIdx, xIdx);
         return boardClickArea;
@@ -60,6 +61,11 @@ public class Board : MonoBehaviour
         }
     }
 
+    private void HandleTokenAdded(int xIdx, int yIdx, int zIdx)
+    {
+        CreateToken(xIdx, yIdx, zIdx, Color.yellow);
+    }
+
     void Awake()
     {
         tokens = new Token[gameController.BOARD_Z, gameController.BOARD_Y, gameController.BOARD_X];
@@ -72,6 +78,8 @@ public class Board : MonoBehaviour
         boardClickAreaParent = new GameObject();
         boardClickAreaParent.transform.parent = transform;
         boardClickAreaParent.name = "Board Click Area Parent";
+
+        gameController.TokenAdded += HandleTokenAdded;
     }
 
     // Start is called before the first frame update

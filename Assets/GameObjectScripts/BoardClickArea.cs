@@ -7,8 +7,8 @@ public class BoardClickArea : MonoBehaviour
     public int xIdx;
     public int yIdx;
     public float boardHeight;
+    public GameController gameController;
 
-    // Start is called before the first frame update
     void Start()
     {
         transform.position = new Vector3(xIdx, boardHeight / 2, yIdx);
@@ -18,10 +18,10 @@ public class BoardClickArea : MonoBehaviour
     void OnMouseOver()
     {
         GetComponent<MeshRenderer>().enabled = true;
-        // if (Input.GetMouseButtonDown(0))
-        // {
-        //     GetComponent<MeshRenderer>().enabled = true;
-        // }
+        if (Input.GetMouseButtonDown(0))
+        {
+            gameController.HandleBoardClick(xIdx, yIdx);
+        }
     }
 
     void OnMouseExit()

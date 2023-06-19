@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour
         sphericalTransform.theta = Mathf.Atan(cameraOrigin.z / cameraOrigin.x);
         sphericalTransform.phi = Mathf.Acos(gameController.BOARD_Z / radius);
 
-        sphericalTransformClamp.radiusClamp = new Vector2(0, startingRadiusMultiplier * startingRadiusMultiplier * radius);
+        sphericalTransformClamp.radiusClamp = new Vector2(sphericalTransformClamp.radiusClamp.x, startingRadiusMultiplier * startingRadiusMultiplier * radius);
 
         transform.rotation = Quaternion.LookRotation(cameraOrigin - transform.position, Vector3.up); 
     }

@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     private Player[] players;
     private Player[,,] state;
     private int currentPlayerIdx;
+    private WinDetector winDetector;
 
     public Player GetPlayerAtIndex(int x, int y, int z)
     {
@@ -33,7 +34,7 @@ public class GameController : MonoBehaviour
 
         state.SetValue(players[currentPlayerIdx], smallestZ, yIdx, xIdx);
         TokenAdded?.Invoke(xIdx, yIdx, smallestZ, players[currentPlayerIdx]);
-        if (WinDetector.IsWinner(state, players[currentPlayerIdx]))
+        if (winDetector.IsWinner(state, players[currentPlayerIdx]))
         {
             Debug.Log($"Player {players[currentPlayerIdx].id} wins.");
             PlayerWon?.Invoke(players[currentPlayerIdx]);
@@ -49,6 +50,7 @@ public class GameController : MonoBehaviour
         players = new Player[PLAYER_COUNT];
         for (int idx = 0; idx < PLAYER_COUNT; idx++) players[idx] = new Player(idx + 1, UnityEngine.Random.ColorHSV());
         currentPlayerIdx = 0;
+        winDetector = GetComponent<WinDetector>();
         Physics.queriesHitTriggers = true;
     }
 }

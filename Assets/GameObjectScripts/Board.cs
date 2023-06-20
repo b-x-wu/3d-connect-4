@@ -18,7 +18,7 @@ public class Board : MonoBehaviour
         BoardClickArea boardClickArea = Instantiate<BoardClickArea>(boardClickAreaPrefab, boardClickAreaParent.transform);
         boardClickArea.xIdx = xIdx;
         boardClickArea.yIdx = yIdx;
-        boardClickArea.boardHeight = gameController.BOARD_Z;
+        boardClickArea.boardHeight = GameContext.BOARD_Z;
         boardClickArea.gameController = gameController;
         boardClickArea.name = $"Board Click Area ({xIdx}, {yIdx})";
         boardClickAreas.SetValue(boardClickArea, yIdx, xIdx);
@@ -36,11 +36,11 @@ public class Board : MonoBehaviour
 
     private void InitializeTokens()
     {
-        for (int x = 0; x < gameController.BOARD_X; x++)
+        for (int x = 0; x < GameContext.BOARD_X; x++)
         {
-            for (int y = 0; y < gameController.BOARD_Y; y++)
+            for (int y = 0; y < GameContext.BOARD_Y; y++)
             {
-                for (int z = 0; z < gameController.BOARD_Z; z++)
+                for (int z = 0; z < GameContext.BOARD_Z; z++)
                 {
                     Player player = gameController.GetPlayerAtIndex(x, y, z);
                     if (player == null) continue;
@@ -52,9 +52,9 @@ public class Board : MonoBehaviour
 
     private void InitializeBoardClickAreas()
     {
-        for (int x = 0; x < gameController.BOARD_X; x++)
+        for (int x = 0; x < GameContext.BOARD_X; x++)
         {
-            for (int y = 0; y < gameController.BOARD_Y; y++)
+            for (int y = 0; y < GameContext.BOARD_Y; y++)
             {
                 CreateBoardClickArea(x, y);
             }
@@ -73,8 +73,8 @@ public class Board : MonoBehaviour
 
     void Awake()
     {
-        tokens = new Token[gameController.BOARD_Z, gameController.BOARD_Y, gameController.BOARD_X];
-        boardClickAreas = new BoardClickArea[gameController.BOARD_Y, gameController.BOARD_X];
+        tokens = new Token[GameContext.BOARD_Z, GameContext.BOARD_Y, GameContext.BOARD_X];
+        boardClickAreas = new BoardClickArea[GameContext.BOARD_Y, GameContext.BOARD_X];
 
         tokenParent = new GameObject();
         tokenParent.transform.parent = transform;
@@ -92,8 +92,8 @@ public class Board : MonoBehaviour
     {
         InitializeBoardClickAreas();
         InitializeTokens();
-        tileBoard.xBoardLength = gameController.BOARD_X;
-        tileBoard.yBoardLength = gameController.BOARD_Y;
+        tileBoard.xBoardLength = GameContext.BOARD_X;
+        tileBoard.yBoardLength = GameContext.BOARD_Y;
         tileBoard.SetTiles();
     }
 }

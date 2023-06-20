@@ -17,14 +17,14 @@ public class CameraController : MonoBehaviour
     {
         sphericalTransform = GetComponent<SphericalTransform>();
         sphericalTransformClamp = GetComponent<SphericalTransformClamp>();
-        cameraOrigin = new Vector3(gameController.BOARD_X / 2, 0, gameController.BOARD_Y / 2);
+        cameraOrigin = new Vector3(GameContext.BOARD_X / 2, 0, GameContext.BOARD_Y / 2);
         
-        float radius = (new Vector3(gameController.BOARD_X / 2, gameController.BOARD_Z, gameController.BOARD_Y / 2)).magnitude;
+        float radius = (new Vector3(GameContext.BOARD_X / 2, GameContext.BOARD_Z, GameContext.BOARD_Y / 2)).magnitude;
 
         sphericalTransform.origin = cameraOrigin;
         sphericalTransform.radius = startingRadiusMultiplier * radius;
         sphericalTransform.theta = Mathf.Atan(cameraOrigin.z / cameraOrigin.x);
-        sphericalTransform.phi = Mathf.Acos(gameController.BOARD_Z / radius);
+        sphericalTransform.phi = Mathf.Acos(GameContext.BOARD_Z / radius);
 
         sphericalTransformClamp.radiusClamp = new Vector2(sphericalTransformClamp.radiusClamp.x, startingRadiusMultiplier * startingRadiusMultiplier * radius);
 
@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        Vector3 lookDirection = new Vector3(gameController.BOARD_X / 2, 0, gameController.BOARD_Y / 2) - transform.position;
+        Vector3 lookDirection = new Vector3(GameContext.BOARD_X / 2, 0, GameContext.BOARD_Y / 2) - transform.position;
         transform.rotation = Quaternion.LookRotation(lookDirection, Vector3.up);
 
         sphericalTransform.radius -= Input.mouseScrollDelta.y * radiusScaleSpeed;

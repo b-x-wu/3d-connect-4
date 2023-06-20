@@ -9,10 +9,6 @@ public delegate void WinnerNotification(Player player);
 
 public class GameController : MonoBehaviour
 {
-    public int BOARD_X = 7;
-    public int BOARD_Y = 7;
-    public int BOARD_Z = 6;
-    public int PLAYER_COUNT = 2;
     public Text winText;
     public event TokenIdxNotification TokenAdded;
     public event WinnerNotification PlayerWon;
@@ -30,9 +26,9 @@ public class GameController : MonoBehaviour
     {
         // get smallest value of z that that has no token in state
         int smallestZ = 0;
-        while (smallestZ < BOARD_Z && (Player) state.GetValue(smallestZ, yIdx, xIdx) != null) smallestZ++;
+        while (smallestZ < GameContext.BOARD_Z && (Player) state.GetValue(smallestZ, yIdx, xIdx) != null) smallestZ++;
 
-        if (smallestZ == BOARD_Z) return; // the entire column is filled
+        if (smallestZ == GameContext.BOARD_Z) return; // the entire column is filled
 
         state.SetValue(players[currentPlayerIdx], smallestZ, yIdx, xIdx);
         TokenAdded?.Invoke(xIdx, yIdx, smallestZ, players[currentPlayerIdx]);
@@ -43,14 +39,14 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        currentPlayerIdx = (currentPlayerIdx + 1) % PLAYER_COUNT;
+        currentPlayerIdx = (currentPlayerIdx + 1) % GameContext.PLAYER_COUNT;
     }
 
     void Awake()
     {
-        state = new Player[BOARD_Z, BOARD_Y, BOARD_X];
-        players = new Player[PLAYER_COUNT];
-        for (int idx = 0; idx < PLAYER_COUNT; idx++) players[idx] = new Player(idx + 1, idx % 2 == 0 ? Color.red : Color.yellow);
+        state = new Player[GameContext.BOARD_Z, GameContext.BOARD_Y, GameContext.BOARD_X];
+        players = new Player[GameContext.PLAYER_COUNT];
+        for (int idx = 0; idx < GameContext.PLAYER_COUNT; idx++) players[idx] = new Player(idx + 1, GameContext.PLAYER_COLORS[idx % GameContext.PLAYER_COLORS.Count]);
         currentPlayerIdx = 0;
         winDetector = GetComponent<WinDetector>();
         Physics.queriesHitTriggers = true;

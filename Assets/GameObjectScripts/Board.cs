@@ -7,6 +7,7 @@ public class Board : MonoBehaviour
     public GameController gameController;
     public Token tokenPrefab;
     public BoardClickArea boardClickAreaPrefab;
+    public TileBoard tileBoard;
     private Token[,,] tokens;
     private BoardClickArea[,] boardClickAreas;
     private GameObject tokenParent;
@@ -91,5 +92,8 @@ public class Board : MonoBehaviour
     {
         InitializeBoardClickAreas();
         InitializeTokens();
+        tileBoard.xBoardLength = gameController.BOARD_X;
+        tileBoard.yBoardLength = gameController.BOARD_Y;
+        tileBoard.SetTiles();
     }
 }

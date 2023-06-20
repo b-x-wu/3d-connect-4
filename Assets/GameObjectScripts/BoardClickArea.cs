@@ -11,7 +11,7 @@ public class BoardClickArea : MonoBehaviour
 
     void Start()
     {
-        transform.position = new Vector3(xIdx, boardHeight / 2, yIdx);
+        transform.position = new Vector3(xIdx, boardHeight / 2 - 0.5f, yIdx);
         transform.localScale = new Vector3(1, boardHeight, 1);
     }
     
@@ -27,11 +27,5 @@ public class BoardClickArea : MonoBehaviour
     void OnMouseExit()
     {
         GetComponent<MeshRenderer>().enabled = false;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6520a8a3b9799d041af655c8c7880aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TOKEN_WIN_COUNT: 1
+  TOKEN_WIN_COUNT: 4
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

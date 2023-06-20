@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public delegate void TokenIdxNotification(int xIdx, int yIdx, int zIdx, Player player);
 public delegate void WinnerNotification(Player player);
@@ -12,6 +13,7 @@ public class GameController : MonoBehaviour
     public int BOARD_Y = 7;
     public int BOARD_Z = 6;
     public int PLAYER_COUNT = 2;
+    public Text winText;
     public event TokenIdxNotification TokenAdded;
     public event WinnerNotification PlayerWon;
     private Player[] players;
@@ -36,7 +38,7 @@ public class GameController : MonoBehaviour
         TokenAdded?.Invoke(xIdx, yIdx, smallestZ, players[currentPlayerIdx]);
         if (winDetector.IsWinner(state, players[currentPlayerIdx]))
         {
-            Debug.Log($"Player {players[currentPlayerIdx].id} wins.");
+            winText.text = $"Player {players[currentPlayerIdx].id} wins."; 
             PlayerWon?.Invoke(players[currentPlayerIdx]);
             return;
         }
@@ -48,7 +50,7 @@ public class GameController : MonoBehaviour
     {
         state = new Player[BOARD_Z, BOARD_Y, BOARD_X];
         players = new Player[PLAYER_COUNT];
-        for (int idx = 0; idx < PLAYER_COUNT; idx++) players[idx] = new Player(idx + 1, UnityEngine.Random.ColorHSV());
+        for (int idx = 0; idx < PLAYER_COUNT; idx++) players[idx] = new Player(idx + 1, idx % 2 == 0 ? Color.red : Color.yellow);
         currentPlayerIdx = 0;
         winDetector = GetComponent<WinDetector>();
         Physics.queriesHitTriggers = true;

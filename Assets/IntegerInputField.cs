@@ -20,17 +20,17 @@ public class IntegerInputField : MonoBehaviour
 
     void OnValidate()
     {
-        SetCurrentValue(currentValue);
+        SetCurrentValueInternal(currentValue);
     }
 
     public void OnUpButtonClicked()
     {
-        SetCurrentValue(currentValue + 1);
+        SetCurrentValueInternal(currentValue + 1);
     }
 
     public void OnDownButtonClicked()
     {
-        SetCurrentValue(currentValue - 1);
+        SetCurrentValueInternal(currentValue - 1);
     }
 
     public void OnInputFieldSubmit()
@@ -38,7 +38,7 @@ public class IntegerInputField : MonoBehaviour
         try
         {
             int newValue = Int32.Parse(inputField.text);
-            SetCurrentValue(newValue);
+            SetCurrentValueInternal(newValue);
         }
         catch (FormatException)
         {
@@ -46,9 +46,15 @@ public class IntegerInputField : MonoBehaviour
         }
     }
 
+    private void SetCurrentValueInternal(int value)
+    {
+        currentValue = value;
+        inputField.text = currentValue.ToString();
+        OnValueChanged.Invoke(this, currentValue, value);
+    }
+
     public void SetCurrentValue(int value)
     {
-        OnValueChanged.Invoke(this, currentValue, value);
         currentValue = value;
         inputField.text = currentValue.ToString();
     }

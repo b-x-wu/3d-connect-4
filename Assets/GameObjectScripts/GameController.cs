@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public delegate void TokenIdxNotification(int xIdx, int yIdx, int zIdx, Player player);
@@ -10,6 +11,7 @@ public delegate void WinnerNotification(Player player);
 public class GameController : MonoBehaviour
 {
     public Text winText;
+    public Button mainMenuButton;
     public event TokenIdxNotification TokenAdded;
     public event WinnerNotification PlayerWon;
     private Player[] players;
@@ -35,6 +37,8 @@ public class GameController : MonoBehaviour
         if (winDetector.IsWinner(state, players[currentPlayerIdx]))
         {
             winText.text = $"Player {players[currentPlayerIdx].id} wins."; 
+            mainMenuButton.enabled = true;
+            mainMenuButton.gameObject.SetActive(true);
             PlayerWon?.Invoke(players[currentPlayerIdx]);
             return;
         }
@@ -50,5 +54,10 @@ public class GameController : MonoBehaviour
         currentPlayerIdx = 0;
         winDetector = GetComponent<WinDetector>();
         Physics.queriesHitTriggers = true;
+    }
+
+    public void OnMainMenuButtonClick()
+    {
+        SceneManager.LoadScene("TitleScreenScene");
     }
 }
